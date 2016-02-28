@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--HTML5 doctype-->
+<html ng-app="DemoApp">
+
+<head>
+
+    <title>Tab View Template</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" type="text/css" href="./appframework/build/icons.css" />
+    <link rel="stylesheet" type="text/css" href="./appframework/build/af.ui.css" />
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+    
+    <link href='./dist/angular-carousel.css' rel='stylesheet' type='text/css'>
+    <link href='./demo/demo.css' rel='stylesheet' type='text/css'>
+
+
+
+</head>
+
+<body>
+
+    <div id="splashscreen" class='ui-loader heavy'>
+        MyMeals
+        <br>
+        <br>
+        <span class='ui-icon ui-icon-loading spin'></span>
+        <h1>Starting app</h1>
+    </div>
+
+    <div class="view" id="mainview">
+        <header>
+            <h1>MyMeals</h1>
+        </header>
+
+        <div class="pages">
+
+         <!--Tab View Pages-->
+      
+        <div class="panel" data-title="MyMeals" id="main" data-selected="true">
+
+            <div ng-controller="DemoCtrl">
+                <div class="carousel-demo">
+                          <!--  index : <input type="number" class="tiny" ng-model="carouselIndex">-->
+                            <ul rn-carousel rn-carousel-controls rn-carousel-index="carouselIndex" rn-carousel-buffered class="carousel1">
+                                <li ng-repeat="slide in slides track by slide.id" ng-class="'id-' + slide.id">
+                                    <div ng-style="{'background-image': 'url(' + slide.img + ')'}"  class="bgimage">
+                                        {{ slide.id }}
+                                    </div>
+                                </li>
+                            
+                            </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" data-title="Add New Meals" id="foobar" >
+            This is view for second Tab
+            <br>
+            <br>
+             <a href="#about" class="button" data-tab='tab3' data-transition="slide-left">About</a>
+        </div>
+
+        <div class="panel" data-title="About" id="about">
+            This is view for third Tab
+        </div>
+
+        <div class="panel" data-title="Profile" id="test">
+            This is view for fourth Tab
+        </div>
+
+        </div>
+
+        <footer>
+            <a href="#main" class="icon home" id='tab1' >MyMeals</a>
+            <a href="#foobar" class="icon add" id='tab2' data-transition="up-reveal">Add New Meals</a>
+            <a href="#about" class="icon info" id='tab3' data-transition="slide-left">About</a>
+           <!-- <a href="#test" class="icon trash" id='tab4' data-transition="none">test</a>-->
+        </footer>
+    </div>
+
+
+</body>
+
+
+    <script type="text/javascript" charset="utf-8" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.3/fastclick.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="./appframework/build/appframework.ui.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-touch.min.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.6.14.min.js"></script>
+    <script src="./dist/angular-carousel.min.js"></script>
+<script>
+        console.log("Im script");
+        
+        angular.module('DemoApp', [
+            'angular-carousel'
+        ])
+ 
+        .controller('DemoCtrl', function($scope) {
+
+
+
+            $scope.colors = ["#fc0003", "#f70008", "#f2000d", "#ed0012", "#e80017", "#e3001c", "#de0021", "#d90026", "#d4002b", "#cf0030", "#c90036", "#c4003b", "#bf0040", "#ba0045", "#b5004a", "#b0004f", "#ab0054", "#a60059", "#a1005e", "#9c0063", "#960069", "#91006e", "#8c0073", "#870078", "#82007d", "#7d0082", "#780087", "#73008c", "#6e0091", "#690096", "#63009c", "#5e00a1", "#5900a6", "#5400ab", "#4f00b0", "#4a00b5", "#4500ba", "#4000bf", "#3b00c4", "#3600c9", "#3000cf", "#2b00d4", "#2600d9", "#2100de", "#1c00e3", "#1700e8", "#1200ed", "#0d00f2", "#0800f7", "#0300fc"];
+
+            console.log("Im script");
+            function getSlide(target,image,title) {
+                var i = target.length;
+              
+
+                return {
+                    id: title,
+                    label: 'slide #' + (i + 1),
+                    img: image,
+                    color: $scope.colors[ (i*10) % $scope.colors.length],
+                    odd: (i % 2 === 0)
+                };
+            }
+
+            function addSlide(target, style) {
+                target.push(getSlide(target));
+            };
+
+            $scope.carouselIndex = 3;
+            $scope.carouselIndex2 = 0;
+            $scope.carouselIndex2 = 1;
+            $scope.carouselIndex3 = 5;
+            $scope.carouselIndex4 = 5;
+
+            function addSlides(target, style, qty) {
+                for (var i=0; i < qty; i++) {
+                    addSlide(target, style);
+                }
+            }
+
+            // 1st ngRepeat demo
+            $scope.slides = [];
+            /*addSlides($scope.slides, 'sports', 6);*/
+
+            Parse.initialize("hMQo9pYeYx9vBA1011Y5jGrpaSYO3GkWanr48eZ5", "jDgwEqyAANBJ8V5Vm40VuydoG8wcf88lnvfARYMX");
+            Parse.serverURL = 'https://fathomless-wildwood-52091.herokuapp.com/parse/'
+
+            var GameScore = Parse.Object.extend("MyMeals");
+            var query = new Parse.Query(GameScore);
+            query.find({
+              success: function(result) {
+                    dosomething(result);
+                // The object was retrieved successfully.
+              },
+              error: function(object, error) {
+                // The object was not retrieved successfully.
+                // error is a Parse.Error with an error code and message.
+              }
+            });
+
+            function dosomething(result){
+                console.log("Database: " + result.length)
+                for (var i=0; i < result.length; i++) {
+                gameScore = result[i];       
+                var playerName = gameScore.get("pictureLink");
+                var mealTitle = gameScore.get("Title");
+               
+                
+                $scope.slides.push(getSlide($scope.slides,playerName,mealTitle));
+
+                $scope.$apply();
+             
+              }
+            /*alert(playerName);*/
+            }
+        })
+    </script>
+
+</html>
